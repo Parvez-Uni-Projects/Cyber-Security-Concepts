@@ -24,7 +24,6 @@ while True:
         break
     response += data
 
-
 # Close the socket
 client_socket.close()
 
