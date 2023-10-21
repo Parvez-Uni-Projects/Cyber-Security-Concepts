@@ -1,6 +1,7 @@
 import tkinter as tk
 from paho.mqtt import client as mqtt_client
 
+# MQTT Broker Settings ###
 broker = 'rule28.i4t.swin.edu.au'
 port = 1883
 topic_command = "103799026/alarm/command"
@@ -10,24 +11,35 @@ username = "103799026"
 password = "103799026"
 
 
+#  Publishes a message to a topic
+def publisher(topic, msg):
+    # example: publisher("103799026/alarm/sensor", "Motion Detected")
+    client.publish(topic, msg)
+    print(f"Published `{msg}` to topic `{topic}`")
+
+# Subscribes to topics
+def subscriber():
+    client.subscribe(topic_sensor)
+    print("Subscribed to topics:", topic_sensor)
+
+# Confirms connection established with MQTT Broker
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("GUI Connected to MQTT Broker!")
-        client.subscribe(topic_sensor)
-        client.subscribe(topic_command)
-        print("Subscribed to topics:", topic_sensor, topic_command)
+        subscriber()
     else:
         print("Failed to connect, return code %d\n", rc)
+
 
 def on_message(client, userdata, msg):
     payload = msg.payload.decode()
     if msg.topic == topic_sensor:
         update_motion_status(payload)
-    elif msg.topic == topic_command:
-        update_motion_status(payload)
-        log(f"Received command: {payload}")
+        log(f"Received sensor feedback: {payload}")
+    else:
+        log(f"Received msg: {payload}")
 
-
+# is used to connect to the MQTT Broker
 def connect_mqtt():
     client = mqtt_client.Client(client_id)
     client.username_pw_set(username, password)
@@ -36,6 +48,7 @@ def connect_mqtt():
     client.on_message = on_message
     return client
 
+
 client = connect_mqtt()
 
 client.loop_start()
@@ -43,19 +56,23 @@ client.loop_start()
 
 # GUI functions
 def activate_alarm():
-    client.publish(topic_command, "Activate")
+    publisher(topic_command, "Activate")
     log("Alarm Activated!")
 
+
 def deactivate_alarm():
-    client.publish(topic_command, "Deactivate")
+    publisher(topic_command, "Deactivate")
     log("Alarm Deactivated!")
+
 
 def update_motion_status(status):
     motion_status_label.config(text=f"Motion Status: {status}")
 
+
 def log(message):
     text_area.insert(tk.END, message + "\n")
     text_area.see(tk.END)  # auto-scroll to the end
+
 
 # Create GUI
 root = tk.Tk()
