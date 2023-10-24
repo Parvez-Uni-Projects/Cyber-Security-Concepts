@@ -6,6 +6,7 @@ broker = 'rule28.i4t.swin.edu.au'
 port = 1883
 topic_command = "103799026/alarm/command"
 topic_sensor = "103799026/alarm/sensor"
+topic_public ="public/#"
 client_id = "s103799026-alarm-gui"
 username = "103799026"
 password = "103799026"
@@ -20,6 +21,7 @@ def publisher(topic, msg):
 # Subscribes to topics
 def subscriber():
     client.subscribe(topic_sensor)
+    client.subscribe(topic_public)
     print("Subscribed to topics:", topic_sensor)
 
 # Confirms connection established with MQTT Broker
@@ -36,8 +38,13 @@ def on_message(client, userdata, msg):
     if msg.topic == topic_sensor:
         update_motion_status(payload)
         log(f"Received sensor feedback: {payload}")
+        if payload == "Motion Detected":
+            activate_alarm()
+        elif payload == "No Motion":
+            deactivate_alarm()
+        log(f" via sensor ")
     else:
-        log(f"Received msg: {payload}")
+        log(f"Received Public msg: {payload}")
 
 # is used to connect to the MQTT Broker
 def connect_mqtt():
