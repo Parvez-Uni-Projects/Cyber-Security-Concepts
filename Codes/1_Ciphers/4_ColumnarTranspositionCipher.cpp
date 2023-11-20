@@ -38,11 +38,6 @@ void rearrangeTheMatrix()
         CHAR_NUMBER[tempkey[i]] = i + 1;
     }
 
-    vector<pair<int, char>> INDEXED_KEY;
-    for (int i = 0; i < KEY.length(); ++i) {
-        INDEXED_KEY.push_back({ CHAR_NUMBER[KEY[i]], KEY[i] });
-    }
-
     for (int i = 0; i < KEY.length(); ++i) {
         INDEX.push_back({ CHAR_NUMBER[KEY[i]], i + 1 });
     }
@@ -63,8 +58,9 @@ string applyColumnarTransposition()
 
     string cipherText;
     for (int i = 0; i < KEY.length(); i++) {
+        int col = INDEX[i].second - 1;
         for (int j = 0; j < ROWS; j++) {
-            cipherText += MATRIX[j][INDEX[i].second - 1];
+            cipherText += MATRIX[j][col];
         }
     }
 
