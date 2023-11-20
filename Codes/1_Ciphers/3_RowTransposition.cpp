@@ -45,7 +45,7 @@ void rearrangeTheMatrix()
    // sort(keyWithIndex.begin(), keyWithIndex.end());
 
     for (int i = 0; i < KEY.length(); i++)
-        cout << keyWithIndex[i].second << " ";
+        //cout << keyWithIndex[i].second << " ";
 
     for (int i = 0; i < KEY.length(); i++) {
         int col = keyWithIndex[i].second - 1;
@@ -67,16 +67,17 @@ string applyRowTransposition()
     rearrangeTheMatrix();
 
     cout << endl;
-    printMatrix(MATRIX);
+    //printMatrix(MATRIX);
 
     cout << endl;
-    printMatrix(REARRANGED_MATRIX);
+    //printMatrix(REARRANGED_MATRIX);
 
     string cipher;
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < KEY.length(); j++) {
             cipher += REARRANGED_MATRIX[i][j];
         }
+        cipher += " ";
     }
 
     return cipher;
