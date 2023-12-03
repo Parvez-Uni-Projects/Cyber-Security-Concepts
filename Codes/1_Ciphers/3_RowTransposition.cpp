@@ -67,10 +67,10 @@ string applyRowTransposition()
     rearrangeTheMatrix();
 
     cout << endl;
-    //printMatrix(MATRIX);
+    printMatrix(MATRIX);
 
     cout << endl;
-    //printMatrix(REARRANGED_MATRIX);
+    printMatrix(REARRANGED_MATRIX);
 
     string cipher;
     for (int i = 0; i < ROWS; i++) {
