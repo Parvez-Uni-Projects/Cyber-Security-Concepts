@@ -1,11 +1,3 @@
-Take input P ,Q 
-Take input message
-Calculatee E D N
-Generate public key and private key
-
-
-```cpp
-
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
@@ -117,5 +109,3 @@ The decoded message (decrypted by private key)
 Chilling with friends
 
 */
-
-```
