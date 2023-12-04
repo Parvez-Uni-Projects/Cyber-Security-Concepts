@@ -23,16 +23,16 @@ void init()
 
     n = p * q;
     int PHI = (p - 1) * (q - 1);
-    int e = 2;
-    while (true) {
-        if (__gcd(e, PHI) == 1)
-            break;
-        e++;
-    }
+    int e = 17;
+    // while (true) {
+    //     if (__gcd(e, PHI) == 1)
+    //         break;
+    //     e++;
+    // }
     PUBLIC_KEY = e;
     int d = 2;
     while (true) {
-        if ((d * e) % PHI == 1)
+        if (((d * e) % PHI) - 1 == 0)
             break;
         d++;
     }
@@ -43,12 +43,12 @@ void init()
 
 ll modVal(int key, int message, int n)
 {
-    ll text = 1;
+    ll character = 1;
     while (key--) {
-        text *= message;
-        text %= n;
+        character *= message;
+        character %= n;
     }
-    return text;
+    return character;
 }
 
 vector<int> encrypt(string message)
@@ -74,22 +74,25 @@ int main()
     string message;
     cin.ignore();
     getline(cin, message);
-    vector<int> coded = encrypt(message);
+
     cout << "Initial message:" << endl;
     cout << message;
     cout << endl;
     cout << endl;
+    vector<int> encryptedMessage = encrypt(message);
     cout << "The encoded message (encrypted by public key)" << endl;
-    for (int i = 0; i < coded.size(); i++)
-        cout << coded[i];
+    for (int i = 0; i < encryptedMessage.size(); i++)
+        cout << encryptedMessage[i];
     cout << endl;
     cout << "The decoded message (decrypted by private key)" << endl;
-    cout << decrypt(coded) << endl;
+    cout << decrypt(encryptedMessage) << endl;
+
+    cout << (ll)(pow(5,17)) % 209 << endl;
     return 0;
 }
 
 /*
-Sample Input : 
+Sample Input :
 587 599
 Chilling with friends
 
